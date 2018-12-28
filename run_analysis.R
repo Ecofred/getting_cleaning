@@ -5,16 +5,20 @@
 # Note: Instruction where reported in the comments with their number (5-4) to help
 #       for the review
 
+avgfeature <- function(dir_data = 'UCI HAR Dataset', agg_file = 'avgfeature_per_activities_subject.txt'){
 # I like to work with dplyr and pipe
 library(dplyr)
 
 # set working directory to the assignement folder
-old_wd = getwd(); setwd("UCI HAR Dataset")
+old_wd = getwd(); setwd(dir_data)
 
 
 # retrieve ----------------------------------------------
 
 ## Subjects ---------------------------------
+## the category variable is not part of the assignement, but i like to have the
+## the source explicit in the dataset (it helped me in the past)
+
 strain = read.csv("train/subject_train.txt", col.names = 'subject_id', 
                   header = FALSE) %>% 
   as_tibble() %>% 
@@ -28,10 +32,11 @@ stest = read.csv("test/subject_test.txt", col.names = 'subject_id',
 ## Feature -----------------
 
 # 4. Appropriately labels the data set with descriptive variable names. 
-feature_name = read.table(file = "features.txt", header = FALSE,
-                          stringsAsFactors = FALSE,
-                          col.names = c("feature_code", "feature_name"))$feature_name
-
+feature_name <-
+  read.table(file = "features.txt", header = FALSE,
+             stringsAsFactors = FALSE,
+             col.names = c("feature_code", "feature_name"))$feature_name
+  
 xtrain = read.table("train/X_train.txt", header = FALSE,
                     col.names = feature_name) %>% 
   as_tibble()
@@ -56,6 +61,9 @@ activity_labels <-
              col.names = c("activity_code", "activity_name")) %>% 
     as_tibble()
 
+# we are done with the data, we return in the project directory
+setwd(old_wd)
+
 # 1. Merges the training and the test sets to create one data set.
 # 3. Uses descriptive activity names to name the activities in the data set
 analysis_ds <-
@@ -66,14 +74,14 @@ analysis_ds <-
 
 # Extracts only the measurements on the mean and standard deviation for each measurement.
 
-# Note: for each measurement was quite ambiguous for an instruction,
-# so I made some choices explained below
+# Note: "for each measurement" was quite ambiguous for an instruction,
+# so I focused on what really was measured: 
+# 'time' BodyGyro and BodyAcc/GravityAcc on the X,Y,Z axis
 activity_mean_std = select(analysis_ds, 
                            subject_id, activity_name,
-                           # - only the 't' (not the f), because only the t are really the measured
-                           # - select the mean/std variable with the pattern '(mean|std)'
-                           # - only the global (over XYZ) with the pattern '..$' (excludes the '...X' &Co')
-                           matches("^t.*(mean|std)..$"))
+                           matches("^t(Body|Gravity)(Gyro|Acc).(mean|std)...[XYZ]$"))
+                           # it all depends on the match specification
+
 
 
 # 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
@@ -87,7 +95,16 @@ activity_mean_std = select(analysis_ds,
 
 # VERSION 2 - selected one
 # ... also nice and part of the dplyr
-activity_mean_std %>% 
+avgfeature <-
+  activity_mean_std %>% 
   group_by(subject_id,activity_name) %>% 
   # summarise all but the grouping variable
-  summarise_all(mean)
+  summarise_all(mean) 
+
+avgfeature %>% 
+  # and finally save it :)
+  write.table("avgfeature_per_activities_subject.txt", row.names = FALSE)
+
+return(avgfeature)
+
+}
