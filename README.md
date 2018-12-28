@@ -10,6 +10,8 @@ source this file to use the 'avgfeature' function
 + agg_file: a file name to save the output
 
 # Output
-a .txt file described in the Cookbook.md
+
++ a dataset measurement aggregated over subjects and activities
++ a .txt file described in the Cookbook.md in your working directory
 
 

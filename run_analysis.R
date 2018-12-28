@@ -72,7 +72,7 @@ analysis_ds <-
              y = activity_labels,
              by = 'activity_code')
 
-# Extracts only the measurements on the mean and standard deviation for each measurement.
+# 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 
 # Note: "for each measurement" was quite ambiguous for an instruction,
 # so I focused on what really was measured: 
@@ -103,7 +103,7 @@ avgfeature <-
 
 avgfeature %>% 
   # and finally save it :)
-  write.table("avgfeature_per_activities_subject.txt", row.names = FALSE)
+  write.table(agg_file, row.names = FALSE)
 
 return(avgfeature)
 
