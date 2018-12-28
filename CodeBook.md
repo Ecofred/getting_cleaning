@@ -37,7 +37,7 @@ Aggregated measured variables (features) by the mean for the 3 axis (Body & Grav
 for each test and train data group, the dataset was reconstructed by combining the 'subject' (subject ids), 'X' (feature dataset), 'y' (activity dataset).
 A major asumption is that the lines are matching in the dataset. it would have been easier with a key variable to join the 3 datasets.
 
-Variable from the 'X' dataset were named according to the 'feature.txt'
+Variables from the 'X' dataset were named according to the 'feature.txt'
 
 Activities were made human readable by matching the code available in the 'activity_labels.txt'
 
