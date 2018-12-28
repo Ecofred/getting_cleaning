@@ -10,7 +10,8 @@ grouping variable (keys)
 + subject_id : subject id
 + activity_name : activity name
 
-Aggregated measured variables (features) by the mean for the 3 axis (Body & Gravity acceleration and Body gyroscopy)
+Aggregated measured variables (features) by the mean for the 3 axis. Body & Gravity acceleration (in standard gravity units) and Body angular velocity "Gyro"(radians/second)
+where already normalized in the source data
 
 + tBodyAcc.mean...X
 + tBodyAcc.mean...Y
