@@ -12,6 +12,6 @@ source this file to use the 'avgfeature' function
 # Output
 
 + a dataset measurement aggregated over subjects and activities
-+ a .txt file described in the Cookbook.md in your working directory
++ a .txt file described in the Codebook.md in your working directory
 
 
